@@ -6,11 +6,10 @@
  *
  */
 
-#include <Controls.h>
-
 // Main Methods
 void InitToolbox(void);
 void InitWindow(void);
+void InitMenu(void);
 void DoHandleEvent(EventRecord*);
 void DoRunLoop(void);
 
@@ -19,10 +18,26 @@ void HandleKeyDown(EventRecord*);
 void HandleMouseDown(EventRecord*);
 void HandleUpdate(EventRecord*);
 void HandleOSEvent(EventRecord*);
+void HandleMenu(EventRecord*);
 
 // Globals
 Boolean endProgram; // if we can should exit the run loop and end the program
 
+// Enums
+enum {
+    kMainWindowId = 128,
+
+    kAlertId = 128,
+
+    kMenuBarId = 128,
+
+    kMenuAppleId = 129,
+    kMenuAppleAboutId = 1,
+
+    kMenuMainId = 128,
+    kMenuMainBeepId = 1,
+    kMenuMainQuitId = 3
+};
 /**
  * Handle Window (needs) Update events
  */
@@ -42,6 +57,44 @@ void HandleKeyDown(EventRecord* theEvent) {
 	}
 }
 
+/**
+ * Handle menu navigation
+ */
+void HandleMenu(EventRecord* theEvent) {
+    long menuAndItem;
+    short theMenu;
+    short theMenuItem;
+
+    menuAndItem = MenuSelect(theEvent->where);
+    if (menuAndItem > 0) {
+        theMenu = HiWord(menuAndItem);
+        theMenuItem = LoWord(menuAndItem);
+
+        switch (theMenu) {
+            case kMenuAppleId:
+                // the apple menu
+                switch (theMenuItem) {
+                    case kMenuAppleAboutId: // show about
+                        NoteAlert(128, NULL);
+                        break;
+                }
+                break;
+            case kMenuMainId:
+                // the main menu
+                switch (theMenuItem) {
+                    case kMenuMainBeepId: // beep
+                        SysBeep(1);
+                        break;
+                    case kMenuMainQuitId: // quit
+                        endProgram = true;
+                        break;
+                }
+                break;
+        }
+
+        HiliteMenu(0);
+    }
+}
 /**
  * Handle Mousedown events
  */
@@ -65,6 +118,10 @@ void HandleMouseDown(EventRecord* theEvent) {
 
         case inSysWindow:
             SystemClick(theEvent, whichWindow);
+            break;
+
+        case inMenuBar:
+            HandleMenu(theEvent);
             break;
     }
 }
@@ -122,8 +179,24 @@ void InitToolbox(void) {
  */
 void InitWindow(void) {
     WindowPtr theWindow;
-    theWindow = GetNewWindow(128, nil, (WindowPtr)-1L);
+    theWindow = GetNewWindow(kMainWindowId, nil, (WindowPtr)-1L);
     SetPort(theWindow);
+}
+
+/**
+ * Sets up the Menu resource)
+ */
+void InitMenu(void) {
+    Handle menuBarHandle;
+    MenuHandle appleMenuHandle;
+
+    menuBarHandle = GetNewMBar(kMenuBarId);
+    SetMenuBar(menuBarHandle);
+
+    appleMenuHandle = GetMenuHandle(kMenuAppleId);
+    AppendResMenu(appleMenuHandle, 'DRVR');
+
+    DrawMenuBar();
 }
 
 /**
@@ -173,6 +246,7 @@ void DoRunLoop(void) {
 void main(void)
 {
     InitToolbox();
+    InitMenu();
     InitWindow();
     DoRunLoop();
 }
