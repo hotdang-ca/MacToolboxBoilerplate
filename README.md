@@ -1,4 +1,4 @@
-#Macintosh Toolbox C Boilerplate
+# Macintosh Toolbox C Boilerplate
 
 ## What is a Macintosh Toolbox?
 Yeah, it's what we all coded against in the 90's on the Macintosh. Well, except me. I was still watching Teenage Mutant Ninja Turtles and eating breakfast cereal, so I didn't have the capacity to be developing for such systems at the time. But, I'm doing it now!
@@ -22,14 +22,16 @@ This code requires Metrowerks CodeWarrior 7.1+ to run; open the `MacBoilerplate.
 ## TODO
 Some things I'm going to be adding (because it's not actually complete, yet, and I don't know how ot do these things):
 
-- Menus
+- ~~Menu~~ **Done!**
 - Controls
 - File System access
-- Alerts
+- ~~Alerts~~ **Done!**
 - Buttons and Button handlers
 - Keyboard Shortcuts
 - Network access
 
+## Contributing
+Please do. For heaven's sake, yes. But, also please clear your line-endings on any text files to be Unix-like.
 
 ## Who to blame
 Yeah, I'm sorry. (c) 2019 James Robert Perih <<james@hotdang.ca>>
