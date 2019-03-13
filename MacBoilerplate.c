@@ -179,7 +179,10 @@ void InitToolbox(void) {
  */
 void InitWindow(void) {
     WindowPtr theWindow;
+
     theWindow = GetNewWindow(kMainWindowId, nil, (WindowPtr)-1L);
+    SetWTitle(theWindow, "\pMacBoilerPlate");
+
     SetPort(theWindow);
 }
 
