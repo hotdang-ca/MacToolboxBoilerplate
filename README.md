@@ -19,6 +19,11 @@ Right now, not much:
 ## How to use it?
 This code requires Metrowerks CodeWarrior 7.1+ to run; open the `MacBoilerplate.µ` project file. If you're using a different version of Metrowerks, you may need to just junk the project file, create a new project, and include the `.c` and `.rsrc` files.
 
+## A note about resource forks
+Go figure; ResEdit stores the resources in the .rsrc file, in the resource fork. Therefore, Git doesn't see it. So, I have packaged the rsrc file with ditto, and written scripts to package (`package-resources.sh`) and unpackage (`unpackage-resources.sh`) the resource file. You can also verify that the file still contains the resources by running `verify-resources.sh`.
+
+This requires `ditto`, which should be installed on macOS, as well as DeRez, which comes part of Xcode Tools.
+
 ## TODO
 Some things I'm going to be adding (because it's not actually complete, yet, and I don't know how ot do these things):
 
